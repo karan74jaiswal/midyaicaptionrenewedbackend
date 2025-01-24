@@ -23,6 +23,8 @@ async function renderVideo_OnLambda(data) {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: "us-east-1",
   };
+  console.log(process.cwd());
+  console.log(__dirname);
   console.log(path.join(__dirname, "../src/index.tsx"));
   // Bundle the Remotion composition
   const bundleLocation = await bundle({
