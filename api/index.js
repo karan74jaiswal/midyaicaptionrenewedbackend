@@ -27,12 +27,12 @@ async function renderVideo_OnLambda(data) {
   console.log(__dirname);
   console.log(path.resolve(__dirname, "../src/index.tsx"));
   // Bundle the Remotion composition
-  console.log('getting bundle');
-  const bundleLocation = await bundle({
-    // entryPoint: path.join(__dirname, "../src/index.tsx"),
-    entryPoint: path.resolve(__dirname, "../src/index.tsx"),
-    webpackConfigOverride: (config) => config,
-  });
+  // console.log('getting bundle');
+  // const bundleLocation = await bundle({
+  //   // entryPoint: path.join(__dirname, "../src/index.tsx"),
+  //   entryPoint: path.resolve(__dirname, "../src/index.tsx"),
+  //   webpackConfigOverride: (config) => config,
+  // });
 
   console.log('getting bucket');
 
