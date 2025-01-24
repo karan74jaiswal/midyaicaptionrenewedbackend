@@ -26,7 +26,8 @@ async function renderVideo_OnLambda(data) {
   console.log(path.join(__dirname, "../src/index.tsx"));
   // Bundle the Remotion composition
   const bundleLocation = await bundle({
-    entryPoint: path.join(__dirname, "../src/index.tsx"),
+    // entryPoint: path.join(__dirname, "../src/index.tsx"),
+    entryPoint: "./src/index.tsx",
     webpackConfigOverride: (config) => config,
   });
 
@@ -37,7 +38,7 @@ async function renderVideo_OnLambda(data) {
   // Deploy the site
 
   const serveUrl = await deploySite({
-    entryPoint: path.join(__dirname, "../src/index.tsx"),
+    entryPoint: "./src/index.tsx",
     siteName: `my-video`,
     region: awsConfig.region,
     bucketName,
