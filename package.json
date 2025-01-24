@@ -1,0 +1,43 @@
+{
+  "name": "react-video-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@designcombo/transitions": "^0.11.0",
+    "@designcombo/types": "^0.1.37",
+    "@remotion/bundler": "4.0.221",
+    "@remotion/cli": "4.0.221",
+    "@remotion/lambda": "4.0.221",
+    "@remotion/renderer": "4.0.221",
+    "@remotion/transitions": "4.0.221",
+    "aws-sdk": "^2.1692.0",
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "lodash": "^4.17.21",
+    "multer": "1.4.5-lts.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.221",
+    "sharp": "^0.33.5",
+    "uuid": "^11.0.3",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.9",
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "nodemon": "^3.1.7"
+  }
+}
