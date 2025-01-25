@@ -2,7 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-const { bundle } = require("@remotion/bundler");
+// const { bundle } = require("@remotion/bundler");
 const {
   renderMediaOnLambda,
   deploySite,
@@ -23,9 +23,9 @@ async function renderVideo_OnLambda(data) {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: "us-east-1",
   };
-  console.log(process.cwd());
-  console.log(__dirname);
-  console.log(path.resolve(__dirname, "../src/index.tsx"));
+  // console.log(process.cwd());
+  // console.log(__dirname);
+  // console.log(path.resolve(__dirname, "../src/index.tsx"));
   // Bundle the Remotion composition
   // console.log('getting bundle');
   // const bundleLocation = await bundle({
@@ -42,16 +42,16 @@ async function renderVideo_OnLambda(data) {
 
   // Deploy the site
 
-  const serveUrl = await deploySite({
-    entryPoint: path.resolve(__dirname, "../src/index.tsx"),
-    siteName: `my-video`,
-    region: awsConfig.region,
-    bucketName,
-    privacy: "public",
-    options: {},
-  });
+  // const serveUrl = await deploySite({
+  //   entryPoint: path.resolve(__dirname, "../src/index.tsx"),
+  //   siteName: `my-video`,
+  //   region: awsConfig.region,
+  //   bucketName,
+  //   privacy: "public",
+  //   options: {},
+  // });
 
-  console.log("Deployed site:", serveUrl.serveUrl);
+  // console.log("Deployed site:", serveUrl.serveUrl);
 
   // Lambda render configuration
   const renderJob = await renderMediaOnLambda({
@@ -60,7 +60,7 @@ async function renderVideo_OnLambda(data) {
     composition: "CoreComposition", // Directly specify the composition ID
     framesPerLambda: 200,
     inputProps: { data },
-    serveUrl: serveUrl.serveUrl,
+    serveUrl: 'https://remotionlambda-useast1-0lu3rtqh09.s3.us-east-1.amazonaws.com/sites/my-video/index.html',
     codec: "h264",
     privacy: "no-acl",
     height: data.size.height,
