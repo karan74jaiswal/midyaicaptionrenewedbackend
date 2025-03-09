@@ -34,7 +34,7 @@ async function renderVideo_OnLambda(data) {
   //   webpackConfigOverride: (config) => config,
   // });
 
-  console.log('getting bucket');
+  console.log("getting bucket");
 
   const { bucketName } = await getOrCreateBucket({
     region: awsConfig.region,
@@ -60,7 +60,8 @@ async function renderVideo_OnLambda(data) {
     composition: "CoreComposition", // Directly specify the composition ID
     framesPerLambda: 200,
     inputProps: { data },
-    serveUrl: 'https://remotionlambda-useast1-0lu3rtqh09.s3.us-east-1.amazonaws.com/sites/my-video/index.html',
+    serveUrl:
+      "https://remotionlambda-useast1-0lu3rtqh09.s3.us-east-1.amazonaws.com/sites/my-video/index.html",
     codec: "h264",
     privacy: "no-acl",
     height: data.size.height,
