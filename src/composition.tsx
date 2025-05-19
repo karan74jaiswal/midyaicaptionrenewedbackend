@@ -117,21 +117,68 @@ const Composition: React.FC<{ data: any }> = ({ data }) => {
 
     const subscription = stateEvents.subscribe((obj) => {
       if (obj.key === ENTER_EDIT_MODE) {
+        console.log(editableTextId);
         if (editableTextId) {
           // get element by  data-text-id={id}
           const element = document.querySelector(
             `[data-text-id="${editableTextId}"]`
           );
+          // console.log(element?.innerHTML);
+
           if (trackItemIds.includes(editableTextId)) {
-            dispatch(EDIT_OBJECT, {
-              payload: {
-                [editableTextId]: {
-                  details: {
-                    text: element?.innerHTML || "",
+            const item = mergedTrackItemsDeatilsMap[editableTextId];
+            const newText = element?.innerHTML || "";
+
+            if (item.type === "caption") {
+              // For captions, we need to update both text and words
+              const newWords = newText.trim().split(/\s+/);
+
+              // Update metadata.words with new text while preserving timing
+              const updatedWords = newWords.map((word, index) => {
+                if (index < item.metadata.words.length) {
+                  // For existing positions, keep the timing but update the word text
+                  return {
+                    ...item.metadata.words[index],
+                    word: word,
+                  };
+                } else {
+                  // For new words, estimate timing based on the last word
+                  const lastWord =
+                    item.metadata.words[item.metadata.words.length - 1];
+                  const avgDuration = lastWord.end - lastWord.start;
+                  return {
+                    word: word,
+                    start: lastWord.end,
+                    end: lastWord.end + avgDuration,
+                  };
+                }
+              });
+
+              // Dispatch a single action that updates both text and metadata.words
+              dispatch(EDIT_OBJECT, {
+                payload: {
+                  [editableTextId]: {
+                    details: {
+                      text: newText,
+                    },
+                    metadata: {
+                      words: updatedWords,
+                    },
                   },
                 },
-              },
-            });
+              });
+            } else {
+              // For regular text elements, just update the text
+              dispatch(EDIT_OBJECT, {
+                payload: {
+                  [editableTextId]: {
+                    details: {
+                      text: newText,
+                    },
+                  },
+                },
+              });
+            }
           } else {
             dispatch(EDIT_TEMPLATE_ITEM, {
               payload: {
@@ -148,7 +195,7 @@ const Composition: React.FC<{ data: any }> = ({ data }) => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [editableTextId]);
+  }, [editableTextId, mergedTrackItemsDeatilsMap, trackItemIds]);
 
   return (
     <>
