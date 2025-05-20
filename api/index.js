@@ -2,7 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-const { bundle } = require("@remotion/bundler");
+// const { bundle } = require("@remotion/bundler");
 const {
   renderMediaOnLambda,
   deploySite,
@@ -37,9 +37,9 @@ async function renderVideo_OnLambda(data) {
   // console.log(bundleLocation);
   // console.log("getting bucket");
 
-  const { bucketName } = await getOrCreateBucket({
-    region: awsConfig.region,
-  });
+  // const { bucketName } = await getOrCreateBucket({
+  //   region: awsConfig.region,
+  // });
 
   // Deploy the site
 
