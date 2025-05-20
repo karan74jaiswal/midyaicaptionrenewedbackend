@@ -2,7 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
-// const { bundle } = require("@remotion/bundler");
+const { bundle } = require("@remotion/bundler");
 const {
   renderMediaOnLambda,
   deploySite,
@@ -27,14 +27,15 @@ async function renderVideo_OnLambda(data) {
   // console.log(__dirname);
   // console.log(path.resolve(__dirname, "../src/index.tsx"));
   // Bundle the Remotion composition
-  // console.log('getting bundle');
+  // console.log("getting bundle");
   // const bundleLocation = await bundle({
   //   // entryPoint: path.join(__dirname, "../src/index.tsx"),
   //   entryPoint: path.resolve(__dirname, "../src/index.tsx"),
   //   webpackConfigOverride: (config) => config,
   // });
-
-  console.log("getting bucket");
+  // console.log("BundleLocation-");
+  // console.log(bundleLocation);
+  // console.log("getting bucket");
 
   const { bucketName } = await getOrCreateBucket({
     region: awsConfig.region,
@@ -59,13 +60,22 @@ async function renderVideo_OnLambda(data) {
     functionName: "remotion-render-4-0-221-mem2048mb-disk2048mb-120sec",
     composition: "CoreComposition", // Directly specify the composition ID
     framesPerLambda: 200,
-    inputProps: { data },
+    inputProps: {
+      data: {
+        ...data,
+        fps: data.fps || 30,
+        durationInFrames: Math.ceil((data.duration / 1000) * (data.fps || 30)),
+      },
+    },
     serveUrl:
       "https://remotionlambda-useast1-0lu3rtqh09.s3.us-east-1.amazonaws.com/sites/my-video/index.html",
     codec: "h264",
     privacy: "no-acl",
     height: data.size.height,
     width: data.size.width,
+    fps: data.fps,
+    durationInFrames:
+      data.durationInFrames || Math.ceil((data.duration / 1000) * data.fps),
     downloadBehavior: {
       type: "download",
       fileName: "output.mp4",
@@ -73,7 +83,7 @@ async function renderVideo_OnLambda(data) {
     // downloadBehavior:''
   });
 
-  console.log("Render Job Details:", renderJob);
+  // console.log("Render Job Details:", renderJob);
   return renderJob;
 }
 
@@ -123,11 +133,10 @@ app.get("/api", (req, res) => {
 app.post("/api/render", async (req, res) => {
   try {
     const data = req.body;
-    console.log("Received data:", data.id);
+    // console.log("Received data:", data.id);
 
     const response = await renderVideo_OnLambda(data);
-    console.log("Lambda response:", response);
-
+    // console.log("Lambda response:", response);
     res.status(200).json(response);
   } catch (error) {
     console.error("Error:", error);
@@ -149,7 +158,7 @@ app.get("/api/render/status/:renderId", async (req, res) => {
 app.post("/api/render/getUrl", async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
     const result = await getPresignedUrl(data.key);
     res.status(200).json(result);
   } catch (error) {

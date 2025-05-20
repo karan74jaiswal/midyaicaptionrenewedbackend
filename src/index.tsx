@@ -11,8 +11,8 @@ const calculateMetadata: CalculateMetadataFunction<any> = ({
   defaultProps,
   abortSignal,
 }) => {
-  console.log("props- " + Object.entries(props.data));
-  console.log("default props- " + defaultProps);
+  // console.log("props- " + Object.entries(props.data));
+  // console.log("default props- " + defaultProps);
   return {
     // Change the metadata
     durationInFrames: props.data.durationInFrames,

@@ -1,6 +1,4 @@
-// import useStore from "@/pages/editor/store/use-store";
-import { SequenceItem } from "./sequence-item";
-import { ITransition, ITrackItemsMap } from "@designcombo/types";
+import { SequenceItem } from "./player/sequence-item";
 import { dispatch, filter, subject } from "@designcombo/events";
 import {
   EDIT_OBJECT,
@@ -11,10 +9,6 @@ import { useEffect, useState } from "react";
 import { merge } from "lodash";
 import { calculateTextHeight } from "./utils/text";
 import { groupTrackItems } from "./utils/track-items";
-// import { TransitionSeries } from "@remotion/transitions";
-// import { populateTransitionIds } from "./utils/scene";
-// import { TransitionSequenceItem } from "./transition-sequence-item";
-// import { Transitions } from "./transitions";
 import React from "react";
 
 const Composition: React.FC<{ data: any }> = ({ data }) => {
@@ -29,7 +23,7 @@ const Composition: React.FC<{ data: any }> = ({ data }) => {
     size,
     transitionsMap,
   } = data;
-  console.log(data);
+  // console.log(data);
   const mergedTrackItemsDeatilsMap = merge(trackItemsMap, trackItemDetailsMap);
 
   const groupedItems = groupTrackItems({
@@ -117,7 +111,7 @@ const Composition: React.FC<{ data: any }> = ({ data }) => {
 
     const subscription = stateEvents.subscribe((obj) => {
       if (obj.key === ENTER_EDIT_MODE) {
-        console.log(editableTextId);
+        // console.log(editableTextId);
         if (editableTextId) {
           // get element by  data-text-id={id}
           const element = document.querySelector(
